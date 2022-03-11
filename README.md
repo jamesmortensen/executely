@@ -28,7 +28,7 @@ In addition, executely provides some hooks to allow developers to do stuff with 
 
 ### Usage
 
-See the [examples README]() to learn how to use executely with simple examples.
+See the [examples](https://github.com/jamesmortensen/executely/tree/master/examples) folder to learn how to use executely with simple examples.
 
 ### Spawn vs execFile
 
