@@ -8,5 +8,6 @@
   },
   "keywords": [],
   "author": "James Mortensen",
-  "license": "MIT"
+  "license": "MIT",
+  "private": true
 }
