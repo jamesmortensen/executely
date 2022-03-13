@@ -1,10 +1,24 @@
 const execFile = require('child_process').execFile;
 const spawn = require('child_process').spawn;
 
-function execute(cmd, stdoutEnabled, cb) {
-    stdoutEnabled = typeof (stdoutEnabled) === 'undefined' ? false : stdoutEnabled;
+function execute(cmd, opts, cb) {
+    opts = typeof (opts) === 'undefined' ? {
+        stdoutEnabled: false,
+        stderrEnabled: true
+    } : opts;
+    if(typeof(opts) === 'boolean') {
+        var stdoutEnabled = opts;
+        opts = {
+            stdoutEnabled: stdoutEnabled,
+            stderrEnabled: true
+        };
+        //opts.stdoutEnabled = typeof (std) === 'undefined' ? false : opts;
+    } else {
+        opts.stdoutEnabled = typeof (opts.stdoutEnabled) === 'undefined' ? false : opts.stdoutEnabled;
+        opts.stderrEnabled = typeof (opts.stderrEnabled) === 'undefined' ? false : opts.stderrEnabled;
+    }
     return new Promise((resolve, reject) => {
-        const childProcess = executeProcess(cmd, stdoutEnabled);
+        const childProcess = executeProcess(cmd, opts.stdoutEnabled);
 
         if (processIsExecFile(childProcess)) {  // using execFile and stdoutEnabled is false
             childProcess.stdout.on('data', (output) => {
@@ -18,10 +32,16 @@ function execute(cmd, stdoutEnabled, cb) {
                 resolve(output);
             });
 
-            if (childProcess.stderr)
+            if (childProcess.stderr && opts.stderrEnabled)
                 childProcess.stderr.on('data', (output) => {
-                    console.error(output);
-                    reject(output);
+                    childProcess.disableStderr = typeof (childProcess.disableStderr) === 'undefined'
+                        ? false
+                        : childProcess.disableStderr;
+                    if (!childProcess.disableStderr)
+                        console.error('process.stderr: ' + output);
+                    if (cb)
+                        cb(output, childProcess, resolve, reject);
+                    //reject(output);
                 });
         }
 
@@ -53,9 +73,9 @@ function executeProcess(cmd, stdoutEnabled) {
         return execFile(
             cmd.split(' ')[0],
             cmd.split(' ').filter(
-                (arg, index) => { 
+                (arg, index) => {
                     if (index != 0)
-                        return arg; 
+                        return arg;
                 }
             ), { shell: '/bin/bash' }
         );

@@ -30,6 +30,28 @@ In addition, executely provides some hooks to allow developers to do stuff with 
 
 See the [examples](https://github.com/jamesmortensen/executely/tree/master/examples) folder to learn how to use executely with simple examples.
 
+```
+// executely.execute(cmd, options, callbackFn) -> Promise
+```
+
+cmd - The string representation of the command to execute. For example, `ls -ltr *`
+options (Optional) - An object to specify stdoutEnabled (which uses execFile) and stderrEnabled (to enable/disable stderr when using execFile)
+-- stdoutEnabled: defaults to false
+-- stderrEnabled: defaults to true
+callbackFn (Optional) - A callback function to execute when processing the output from a command when using execFile only.
+
+NOTE: options and callbackFn are used only in execFile mode, when stdoutEnabled is true.
+
+```
+// callbackFn(output, process, resolve, reject) -> no return value
+```
+
+output - The streamed output from the command, as a string
+process - The child process object
+resolve - The method to resolve the execute promise
+reject - The method to reject the execute promise
+
+
 ### Spawn vs execFile
 
 executely uses spawn by default, unless a boolean `true` is passed in as the second argument, in which case, we use execFile. execFile has some advantages. We can attach to the stdout stream and listen to any output from the process. executely takes a callback function as the third argument, which is used to do things like disable the output from the process or perhaps start executing other actions in an application.
@@ -39,4 +61,3 @@ One notable example I've used this for is to start a Selenium Standalone Chrome 
 ## License
 
 Copywright (c) James Mortensen, 2022 MIT License
-
