@@ -1,6 +1,6 @@
 {
   "name": "executely",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Wrapper script around child_process execFile and spawn to make it more convenient to run bash commands from a node.js script.",
   "main": "executely.js",
   "scripts": {
