@@ -60,4 +60,4 @@ One notable example I've used this for is to start a Selenium Standalone Chrome 
 
 ## License
 
-Copywright (c) James Mortensen, 2022 MIT License
+Copyright (c) James Mortensen, 2022 MIT License
