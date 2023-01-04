@@ -4,7 +4,9 @@
   "description": "Wrapper script around child_process execFile and spawn to make it more convenient to run bash commands from a node.js script.",
   "main": "executely.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Warning: no test specified\" && exit 0",
+    "build": "mkdir build && cp -np *.md executely.js *.json build/",
+    "test:build": "npm run build && cd build && npm test"
   },
   "keywords": [
     "bash",
